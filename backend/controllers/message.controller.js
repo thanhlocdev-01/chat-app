@@ -22,10 +22,10 @@ const sendMessage = async (req, res) => {
       message,
     });
     if (newMessage) {
-      conversation.message.push(newMessage._id);
+      conversation.messages.push(newMessage._id);
     }
-    // Socket.io go here
-    
+    // Socket io functionally will go here
+
     // await conversation.save();
     // await newMessage.save();
 
@@ -38,4 +38,22 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = sendMessage;
+const getMessages = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user._id;
+
+    const conversation = await Conversation.findOne({
+      participant: { $all: [senderId, userToChatId] },
+    }).populate("messages");
+    return res.status(200).json(conversation.messages);
+  } catch (error) {
+    console.log("Error in getMessage controller: ", error.message);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  sendMessage,
+  getMessages,
+};
