@@ -1,6 +1,18 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+
+  const { loading, login } = useLogin();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(username, password);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -9,7 +21,7 @@ const Login = () => {
           <span className="text-blue-500"> ChatApp</span>
         </h1>
 
-        <form className="p-4">
+        <form className="p-4" onSubmit={handleSubmit}>
           <div className="p-2">
             <label className="input input-bordered hover:border-gray-200 flex items-center gap-2">
               <svg
@@ -19,7 +31,13 @@ const Login = () => {
                 className="w-4 h-4 opacity-70">
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
               </svg>
-              <input type="text" placeholder="Username" className="grow" />
+              <input
+                type="text"
+                placeholder="Username"
+                className="grow"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </label>
           </div>
 
@@ -36,7 +54,13 @@ const Login = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <input type="password" placeholder="Password" className="grow" />
+              <input
+                type="password"
+                placeholder="Password"
+                className="grow"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </label>
           </div>
           <div>
@@ -48,8 +72,14 @@ const Login = () => {
             </Link>
           </div>
           <div className="p-2">
-            <button className="btn btn-block btn-sm btn-outline mt-2 h-10 btn-primary">
-              Login
+            <button
+              className="btn btn-block btn-sm btn-outline mt-2 h-10 btn-primary"
+              disabled={loading}>
+              {loading ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
         </form>
