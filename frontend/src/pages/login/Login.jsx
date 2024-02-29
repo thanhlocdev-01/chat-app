@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const { loading, login } = useLogin();
 
@@ -34,6 +34,7 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="Username"
+                autoComplete="on"
                 className="grow"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -57,6 +58,7 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
+                autoComplete="on"
                 className="grow"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -3,7 +3,7 @@ const {
   sendMessage,
   getMessages,
 } = require("../controllers/message.controller");
-const middlewareRoute = require("../../middleware/middlewareRoute");
+const middlewareRoute = require("../middleware/middlewareRoute");
 
 const router = express.Router();
 
