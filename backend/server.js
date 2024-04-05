@@ -1,7 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
-const path = require("path");
 
 const connectMongoDB = require("./db/connectMongoDB.js");
 const authRoutes = require("./routes/auth.routes");
@@ -19,12 +18,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
-
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
-});
 
 server.listen(PORT, () => {
   connectMongoDB();
